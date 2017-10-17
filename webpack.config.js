@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const pkg = require('./package.json')
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8081
 const docs = process.env.NODE_ENV === 'production'
 
 const htmlWebpackPluginConfig = {

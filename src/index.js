@@ -29,20 +29,22 @@ export default class InstagramEmbed extends Component {
   state = { __html: null }
 
   componentDidMount() {
-    if (window.instgrm || document.getElementById('react-instagram-embed-script')) {
+    if (window.instgrm) {
       this.fetchEmbed(this.getQueryParams(this.props))
     } else {
-      const protocolToUse: string = window.location.protocol.indexOf('file') === 0
-        ? this.props.protocol
-        : ''
+      if (!document.getElementById('react-instagram-embed-script')) {
+        const protocolToUse: string = window.location.protocol.indexOf('file') === 0
+          ? this.props.protocol
+          : ''
 
-      const s = document.createElement('script')
-      s.async = s.defer = true
-      s.src = `${protocolToUse}//platform.instagram.com/en_US/embeds.js`
-      s.id = 'react-instagram-embed-script'
-      const body: HTMLElement | null = document.body
-      if (body) {
-        body.appendChild(s)
+        const s = document.createElement('script')
+        s.async = s.defer = true
+        s.src = `${protocolToUse}//platform.instagram.com/en_US/embeds.js`
+        s.id = 'react-instagram-embed-script'
+        const body: HTMLElement | null = document.body
+        if (body) {
+          body.appendChild(s)
+        }
       }
       this.checkAPI().then(() => this.fetchEmbed(this.getQueryParams(this.props)))
     }
@@ -51,9 +53,9 @@ export default class InstagramEmbed extends Component {
   componentWillReceiveProps(nextProps: Props) {
     const { url, hideCaption, maxWidth, containerTagName } = this.props
     if (nextProps.url !== url ||
-        nextProps.hideCaption !== hideCaption ||
-        nextProps.maxWidth !== maxWidth ||
-        nextProps.containerTagName !== containerTagName) {
+      nextProps.hideCaption !== hideCaption ||
+      nextProps.maxWidth !== maxWidth ||
+      nextProps.containerTagName !== containerTagName) {
       this.jsonp.cancel()
       this.fetchEmbed(this.getQueryParams(nextProps))
     }
@@ -63,21 +65,21 @@ export default class InstagramEmbed extends Component {
     const { url, hideCaption, maxWidth, containerTagName, onLoading, onSuccess, onAfterRender, onFailure } = this.props
     const { __html } = this.state
     if (nextProps.url !== url ||
-        nextProps.hideCaption !== hideCaption ||
-        nextProps.maxWidth !== maxWidth ||
-        nextProps.containerTagName !== containerTagName ||
-        nextProps.onLoading !== onLoading ||
-        nextProps.onSuccess !== onSuccess ||
-        nextProps.onAfterRender !== onAfterRender ||
-        nextProps.onFailure !== onFailure ||
-        nextState.__html !== __html) {
+      nextProps.hideCaption !== hideCaption ||
+      nextProps.maxWidth !== maxWidth ||
+      nextProps.containerTagName !== containerTagName ||
+      nextProps.onLoading !== onLoading ||
+      nextProps.onSuccess !== onSuccess ||
+      nextProps.onAfterRender !== onAfterRender ||
+      nextProps.onFailure !== onFailure ||
+      nextState.__html !== __html) {
       return true
     }
     return false
   }
 
   render() {
-    return <this.props.containerTagName {...this.omitComponentProps()} dangerouslySetInnerHTML={{ __html: this.state.__html }} />
+    return <this.props.containerTagName {...this.omitComponentProps() } dangerouslySetInnerHTML={{ __html: this.state.__html }} />
   }
 
   componentWillUnmount() {
