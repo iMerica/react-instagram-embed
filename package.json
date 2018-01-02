@@ -2,7 +2,13 @@
   "name": "react-instagram-embed",
   "version": "1.3.2",
   "description": "React embedding Instagram posts component",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "lib",
+    "es"
+  ],
   "keywords": [
     "react",
     "component",
